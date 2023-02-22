@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SayfaTopAppBar()
+                    SayfaTopAppBarArama()
                 }
             }
         }
@@ -43,8 +43,76 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MaterialDesignTheme {
-        SayfaTopAppBar()
+        SayfaTopAppBarArama()
     }
+}
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun SayfaTopAppBarArama() {
+    val aramaYapiliyorMu = remember {
+        mutableStateOf(false)
+    }
+    val tf = remember {
+        mutableStateOf("")
+    }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (aramaYapiliyorMu.value) {
+                        TextField(
+                            value = tf.value,
+                            onValueChange = {
+                                tf.value = it
+                            },
+                            label = { Text(text = "Ara") },
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color.Transparent,
+                                focusedLabelColor = Color.White,
+                                focusedIndicatorColor = Color.White,
+                                unfocusedLabelColor = Color.White,
+                                unfocusedIndicatorColor = Color.Transparent
+                                )
+                        )
+                    } else {
+                        Text(text = "Başlık")
+                    }
+                },
+                actions = {
+                    if (aramaYapiliyorMu.value) {
+                        IconButton(onClick = {
+                            aramaYapiliyorMu.value = false
+                            tf.value = ""
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.kapat_resim),
+                                contentDescription = "info"
+                            )
+
+                        }
+                    } else {
+                        IconButton(onClick = {
+                            aramaYapiliyorMu.value = true
+
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.arama_resim),
+                                contentDescription = "info"
+                            )
+
+                        }
+                    }
+                }
+            )
+
+        },
+        content = {
+
+        }
+    )
+
+
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
