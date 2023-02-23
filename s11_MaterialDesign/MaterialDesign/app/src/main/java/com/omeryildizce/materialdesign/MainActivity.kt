@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,6 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.omeryildizce.materialdesign.ui.theme.MaterialDesignTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SayfaSabitListeleme()
+                    SayfaGecisleri()
                 }
             }
         }
@@ -50,7 +58,99 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MaterialDesignTheme {
-        SayfaSabitListeleme()
+        SayfaGecisleri()
+    }
+
+}
+@Composable
+fun SayfaGecisleri(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "sayfa"){
+        composable("sayfa"){
+            SayfaDinamikListeleme(navController = navController)
+        }
+        composable("detay_sayfa/{ulke}", arguments = listOf(
+            navArgument("ulke"){
+                type = NavType.StringType
+            }
+        )){
+            val ulke = it.arguments?.getString("ulke")
+            DetaySayfa(ulkeAdi = ulke ?: "Türkiye")
+        }
+    }
+}
+
+@Composable
+fun SayfaDinamikListeleme(navController: NavController) {
+    val ulkeListesi = remember {
+        mutableStateListOf(
+            "Türkiye",
+            "Almanya",
+            "Bolivya",
+            "Cezayir",
+            "Çad",
+            "Danimarka",
+            "Estonya",
+            "Fransa",
+            "Galler",
+            "Hırvatistan",
+            "Irak",
+            "İran",
+            "Japonya",
+            "Kazakistan",
+            "Lübnan",
+            "Moritanya",
+            "Nepal",
+            "Orta Afrika Cumhuriyeti",
+            "Özbekistan",
+            "Polonya",
+            "Rusya",
+            "Sudan",
+            "Şili",
+            "Tayvan",
+            "Uganda",
+            "Ürdün",
+            "Venezuela",
+            "Yeni Zelanda",
+            "Zimbabve"
+        )
+
+    }
+    LazyColumn {
+        items(
+            count = ulkeListesi.count(),
+            itemContent = {
+                val ulke = ulkeListesi[it]
+                Card(
+                    modifier = Modifier
+                        .padding(all = 5.dp)
+                        .fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.clickable {
+                        navController.navigate("detay_sayfa/$ulke")
+                    }) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .padding(all = 10.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = ulke, modifier = Modifier
+                                .padding(all = 5.dp)
+                                .clickable {
+
+                                })
+                            OutlinedButton(onClick = {
+
+                            }) {
+                                Text(text = "Ülke Seç")
+                            }
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 
@@ -93,7 +193,7 @@ fun SayfaSabitListeleme() {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable {
 
-                }) {
+                    }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = 10.dp)
