@@ -123,7 +123,7 @@ fun SayfaDinamikListeleme(navController: NavController) {
                 val ulke = ulkeListesi[it]
                 Card(
                     modifier = Modifier
-                        .padding(all = 5.dp) 
+                        .padding(all = 5.dp)
                 ) {
                     Row(modifier = Modifier.clickable {
                         navController.navigate("detay_sayfa/$ulke")
