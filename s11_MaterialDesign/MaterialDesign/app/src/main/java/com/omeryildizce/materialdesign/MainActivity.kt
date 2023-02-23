@@ -5,19 +5,26 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.omeryildizce.materialdesign.ui.theme.MaterialDesignTheme
 
@@ -31,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SayfaTopAppBarArama()
+                    SayfaSabitListeleme()
                 }
             }
         }
@@ -43,7 +50,93 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MaterialDesignTheme {
-        SayfaTopAppBarArama()
+        SayfaSabitListeleme()
+    }
+}
+
+@Composable
+fun SayfaSabitListeleme() {
+    LazyRow {
+        item {
+            Card(
+                modifier = Modifier
+                    .padding(all = 5.dp)
+                    .size(100.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable {
+
+                    }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = 10.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.gunes_resim_24),
+                            contentDescription = "gunes"
+                        )
+                        Text(text = "Güneş", modifier = Modifier.padding(all = 5.dp))
+                    }
+                }
+            }
+        }
+        item {
+            Card(
+                modifier = Modifier
+                    .padding(all = 5.dp)
+                    .size(100.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable {
+
+                }) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = 10.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ay_resim_24),
+                            contentDescription = "ay"
+                        )
+                        Text(text = "Ay", modifier = Modifier.padding(all = 5.dp))
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+@Composable
+fun SayfaCard() {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        Card(
+            modifier = Modifier
+                .padding(all = 10.dp)
+                .fillMaxWidth(),
+            elevation = 10.dp,
+            backgroundColor = Color.Magenta,
+            shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+            border = BorderStroke(2.dp, Color.Blue)
+        ) {
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.clickable { }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(all = 10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.gunes_resim),
+                        contentDescription = "Güneş Resmi"
+                    )
+                    Text(text = "Güneş", color = Color.White, fontSize = 36.sp)
+                }
+            }
+        }
+
     }
 }
 
@@ -73,7 +166,7 @@ fun SayfaTopAppBarArama() {
                                 focusedIndicatorColor = Color.White,
                                 unfocusedLabelColor = Color.White,
                                 unfocusedIndicatorColor = Color.Transparent
-                                )
+                            )
                         )
                     } else {
                         Text(text = "Başlık")
