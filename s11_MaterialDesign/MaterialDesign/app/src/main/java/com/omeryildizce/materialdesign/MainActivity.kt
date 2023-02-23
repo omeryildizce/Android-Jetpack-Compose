@@ -116,15 +116,14 @@ fun SayfaDinamikListeleme(navController: NavController) {
         )
 
     }
-    LazyColumn {
+    LazyRow {
         items(
             count = ulkeListesi.count(),
             itemContent = {
                 val ulke = ulkeListesi[it]
                 Card(
                     modifier = Modifier
-                        .padding(all = 5.dp)
-                        .fillMaxWidth()
+                        .padding(all = 5.dp) 
                 ) {
                     Row(modifier = Modifier.clickable {
                         navController.navigate("detay_sayfa/$ulke")
