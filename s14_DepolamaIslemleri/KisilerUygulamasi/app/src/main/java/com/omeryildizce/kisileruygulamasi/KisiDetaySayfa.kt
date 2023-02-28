@@ -1,6 +1,8 @@
 package com.omeryildizce.kisileruygulamasi
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,11 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.omeryildizce.kisileruygulamasi.entity.Kisiler
+import com.omeryildizce.kisileruygulamasi.viewmodel.AnasayfaViewModel
 import com.omeryildizce.kisileruygulamasi.viewmodel.KisiDetaySayfaViewModel
+import com.omeryildizce.kisileruygulamasi.viewmodelfactory.AnasayfaViewModelFactory
+import com.omeryildizce.kisileruygulamasi.viewmodelfactory.KisiDetaySayfaViewModelFactory
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -29,7 +35,10 @@ fun KisiDetaySayfa(gelenKisi:Kisiler) {
         mutableStateOf("")
     }
     val localFocusManager = LocalFocusManager.current
-    val viewModel: KisiDetaySayfaViewModel = viewModel()
+    val context: Context = LocalContext.current
+    val viewModel: KisiDetaySayfaViewModel = viewModel(
+        factory =  KisiDetaySayfaViewModelFactory(context.applicationContext as Application)
+    )
     LaunchedEffect(key1 = true){
         tfKisi.value = gelenKisi.kisi_ad
         tfKisiTel.value = gelenKisi.kisi_tel
