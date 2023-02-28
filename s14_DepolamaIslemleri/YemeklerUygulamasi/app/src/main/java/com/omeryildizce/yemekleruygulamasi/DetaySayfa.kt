@@ -24,7 +24,7 @@ fun DetaySayfa(yemek: Yemekler) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = yemek.yemekAdi) },
+                title = { Text(text = yemek.yemek_adi) },
                 backgroundColor = colorResource(id = R.color.ana_renk),
                 contentColor = colorResource(id = R.color.white)
             )
@@ -39,15 +39,15 @@ fun DetaySayfa(yemek: Yemekler) {
                 Image(
                     bitmap = ImageBitmap.imageResource(
                         id = activity.resources.getIdentifier(
-                            yemek.yemekResimAdi,
+                            yemek.yemek_resim_adi,
                             "drawable",
                             activity.packageName
                         )
                     ),
-                    contentDescription = yemek.yemekAdi,
+                    contentDescription = yemek.yemek_adi,
                     Modifier.size(250.dp)
                 )
-                Text(text = "${yemek.yemekFiyat} ₺", color = Color.Magenta, fontSize = 50.sp)
+                Text(text = "${yemek.yemek_fiyat} ₺", color = Color.Magenta, fontSize = 50.sp)
                 Button(
                     onClick = {
 
