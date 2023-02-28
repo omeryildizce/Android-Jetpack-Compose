@@ -2,6 +2,7 @@ package com.omeryildizce.yemekleruygulamasi
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,10 +12,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +35,7 @@ import com.google.gson.Gson
 import com.omeryildizce.yemekleruygulamasi.entity.Yemekler
 import com.omeryildizce.yemekleruygulamasi.ui.theme.YemeklerUygulamasiTheme
 import com.omeryildizce.yemekleruygulamasi.viewmodel.AnasayfaViewModel
+import com.omeryildizce.yemekleruygulamasi.viewmodel.AnasayfaViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +72,10 @@ fun SayfaGecisleri(){
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AnaSayfa(navController: NavController) {
-    val viewModel:AnasayfaViewModel = viewModel()
+        val context = LocalContext.current
+    val viewModel:AnasayfaViewModel = viewModel(
+        factory = AnasayfaViewModelFactory(context.applicationContext as Application)
+    )
     val yemekListesi = viewModel.yemeklerListesi.observeAsState(listOf())
 
     Scaffold(
@@ -109,12 +111,12 @@ fun AnaSayfa(navController: NavController) {
                                     Image(
                                         bitmap = ImageBitmap.imageResource(
                                             id = activity.resources.getIdentifier(
-                                                yemek.yemekResimAdi,
+                                                yemek.yemek_resim_adi,
                                                 "drawable",
                                                 activity.packageName
                                             )
                                         ),
-                                        contentDescription = yemek.yemekResimAdi,
+                                        contentDescription = yemek.yemek_resim_adi,
                                         modifier = Modifier.size(100.dp)
                                     )
                                     Row(
@@ -126,9 +128,9 @@ fun AnaSayfa(navController: NavController) {
                                             verticalArrangement = Arrangement.SpaceEvenly,
                                             modifier = Modifier.fillMaxHeight()
                                         ) {
-                                            Text(text = yemek.yemekAdi, fontSize = 20.sp)
+                                            Text(text = yemek.yemek_adi, fontSize = 20.sp)
                                             Spacer(modifier = Modifier.size(30.dp))
-                                            Text(text = "${yemek.yemekFiyat} ₺", fontSize = 20.sp, color = Color.Magenta)
+                                            Text(text = "${yemek.yemek_fiyat} ₺", fontSize = 20.sp, color = Color.Magenta)
                                         }
                                         Icon(painter = painterResource(id = R.drawable.arrow_resim), contentDescription = "")
                                     }
