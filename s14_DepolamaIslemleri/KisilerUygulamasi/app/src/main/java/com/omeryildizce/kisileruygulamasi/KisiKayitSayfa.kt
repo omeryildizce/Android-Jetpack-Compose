@@ -1,6 +1,8 @@
 package com.omeryildizce.kisileruygulamasi
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,13 +14,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.omeryildizce.kisileruygulamasi.viewmodel.AnasayfaViewModel
 import com.omeryildizce.kisileruygulamasi.viewmodel.KisiDetaySayfaViewModel
 import com.omeryildizce.kisileruygulamasi.viewmodel.KisiKayitSayfaViewModel
+import com.omeryildizce.kisileruygulamasi.viewmodelfactory.AnasayfaViewModelFactory
+import com.omeryildizce.kisileruygulamasi.viewmodelfactory.KisiKayitSayfaViewModelFactory
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -31,7 +37,10 @@ fun KisiKayitSayfa() {
         mutableStateOf("")
     }
     val localFocusManager = LocalFocusManager.current
-    val viewModel: KisiKayitSayfaViewModel = viewModel()
+    val context: Context = LocalContext.current
+    val viewModel: KisiKayitSayfaViewModel = viewModel(
+        factory =  KisiKayitSayfaViewModelFactory(context.applicationContext as Application)
+    )
     Scaffold(
         topBar = {
             TopAppBar(title = {
