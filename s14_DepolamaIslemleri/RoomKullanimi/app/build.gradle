@@ -46,6 +46,8 @@ android {
     }
 }
 
+apply plugin: "kotlin-kapt"
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -60,4 +62,10 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    // Room
+    implementation "androidx.room:room-runtime:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
+    // Coroutine
+    implementation "androidx.room:room-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 }
