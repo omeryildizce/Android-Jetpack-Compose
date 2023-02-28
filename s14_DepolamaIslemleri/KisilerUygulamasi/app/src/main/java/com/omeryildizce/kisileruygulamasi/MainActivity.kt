@@ -1,6 +1,8 @@
 package com.omeryildizce.kisileruygulamasi
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +15,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +32,7 @@ import com.google.gson.Gson
 import com.omeryildizce.kisileruygulamasi.entity.Kisiler
 import com.omeryildizce.kisileruygulamasi.ui.theme.KisilerUygulamasiTheme
 import com.omeryildizce.kisileruygulamasi.viewmodel.AnasayfaViewModel
+import com.omeryildizce.kisileruygulamasi.viewmodelfactory.AnasayfaViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,9 +84,14 @@ fun AnaSayfa(navController: NavController) {
     val tf = remember {
         mutableStateOf("")
     }
-    val viewModel: AnasayfaViewModel = viewModel()
+    val context:Context = LocalContext.current
+    val viewModel: AnasayfaViewModel = viewModel(
+        factory =  AnasayfaViewModelFactory(context.applicationContext as Application)
+    )
     val kisilerListesi = viewModel.kisilerListesi.observeAsState(listOf())
-
+    LaunchedEffect(key1 =  true  ){
+        viewModel.kisileriYukle()
+    }
     Scaffold(
         topBar = {
             TopAppBar(title = {
