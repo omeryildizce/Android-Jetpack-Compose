@@ -19,7 +19,7 @@ class AnasayfaViewModel : ViewModel() {
     fun ara(aramaKelimesi:String){
         krepo.kisiAra(aramaKelimesi)
     }
-    fun sil(kisiId:Int){
+    fun sil(kisiId:String){
         krepo.kisiSilme(kisiId)
     }
 }

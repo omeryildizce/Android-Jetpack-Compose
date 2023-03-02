@@ -31,8 +31,8 @@ fun KisiDetaySayfa(gelenKisi:Kisiler) {
     val localFocusManager = LocalFocusManager.current
     val viewModel: KisiDetaySayfaViewModel = viewModel()
     LaunchedEffect(key1 = true){
-        tfKisi.value = gelenKisi.kisi_ad
-        tfKisiTel.value = gelenKisi.kisi_tel
+        tfKisi.value = gelenKisi.kisi_ad!!
+        tfKisiTel.value = gelenKisi.kisi_tel!!
     }
     Scaffold(
         topBar = {
@@ -57,7 +57,7 @@ fun KisiDetaySayfa(gelenKisi:Kisiler) {
                 Button(onClick = {
                     val kisiAd = tfKisi.value
                     val kisiTel = tfKisiTel.value
-                    viewModel.guncelle(gelenKisi.kisi_id, kisiAd, kisiTel)
+                    viewModel.guncelle(gelenKisi.kisi_id!!, kisiAd, kisiTel)
                     localFocusManager.clearFocus()
                 },
                     modifier = Modifier.size(250.dp, 50.dp)

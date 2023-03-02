@@ -5,7 +5,7 @@ import com.omeryildizce.kisileruygulamasi.repo.KisilerDaoRepository
 
 class KisiDetaySayfaViewModel: ViewModel() {
     var krepo = KisilerDaoRepository()
-    fun guncelle(kisiId:Int, kisiAd:String, kisiTel:String){
+    fun guncelle(kisiId:String, kisiAd:String, kisiTel:String){
         krepo.kisiGuncelle(kisiId, kisiAd, kisiTel)
     }
 }

@@ -162,7 +162,7 @@ fun AnaSayfa(navController: NavController) {
                                 Text(text = "${kisi.kisi_ad} - ${kisi.kisi_tel}")
 
                                 IconButton(onClick = {
-                                   viewModel.sil(kisi.kisi_id)
+                                   viewModel.sil(kisi.kisi_id!!)
                                 }) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.sil_resim),
