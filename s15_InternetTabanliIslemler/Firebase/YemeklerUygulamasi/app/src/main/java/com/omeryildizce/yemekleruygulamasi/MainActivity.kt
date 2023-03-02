@@ -33,6 +33,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.google.gson.Gson
 import com.omeryildizce.yemekleruygulamasi.entity.Yemekler
 import com.omeryildizce.yemekleruygulamasi.ui.theme.YemeklerUygulamasiTheme
@@ -54,14 +56,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
 @Composable
-fun SayfaGecisleri(){
+fun SayfaGecisleri() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "anasayfa" ){
         composable("anasayfa"){
-            AnaSayfa(navController = navController)
+            Anasayfa(navController = navController)
         }
-        composable("detay_sayfa/{yemek}", arguments = listOf(
+        composable("detay_sayfa/{yemek}",arguments = listOf(
             navArgument("yemek"){type = NavType.StringType}
         )){
             val json = it.arguments?.getString("yemek")
@@ -70,31 +74,31 @@ fun SayfaGecisleri(){
         }
     }
 }
+
+@OptIn(ExperimentalGlideComposeApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun AnaSayfa(navController: NavController) {
+fun Anasayfa(navController: NavController) {
     val viewModel:AnasayfaViewModel = viewModel()
     val yemekListesi = viewModel.yemeklerListesi.observeAsState(listOf())
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Yemekler") },
+                title = { Text(text = "Yemekler")},
                 backgroundColor = colorResource(id = R.color.ana_renk),
-                contentColor = colorResource(id = R.color.white)
+                contentColor = Color.White
             )
         },
         content = {
-            LazyColumn {
+            LazyColumn{
                 items(
-                    count = yemekListesi.value.count(),
+                    count = yemekListesi.value!!.count(),
                     itemContent = {
-                        val yemek = yemekListesi.value[it]
-                        Card(
-                            modifier = Modifier
-                                .padding(all = 5.dp)
-                                .fillMaxWidth()
-                        ) {
+                        val yemek = yemekListesi.value!![it]
+                        Card(modifier = Modifier
+                            .padding(all = 5.dp)
+                            .fillMaxWidth()) {
                             Row(modifier = Modifier.clickable {
                                 val yemekJson = Gson().toJson(yemek)
                                 navController.navigate("detay_sayfa/$yemekJson")
@@ -105,18 +109,9 @@ fun AnaSayfa(navController: NavController) {
                                         .padding(all = 10.dp)
                                         .fillMaxWidth()
                                 ) {
-                                    val activity = LocalContext.current as Activity
-                                    Image(
-                                        bitmap = ImageBitmap.imageResource(
-                                            id = activity.resources.getIdentifier(
-                                                yemek.yemekResimAdi,
-                                                "drawable",
-                                                activity.packageName
-                                            )
-                                        ),
-                                        contentDescription = yemek.yemekResimAdi,
-                                        modifier = Modifier.size(100.dp)
-                                    )
+                                    GlideImage(
+                                        model = "http://10.0.2.2/yemekler/resimler/${yemek.yemek_resim_adi}",
+                                        modifier = Modifier.size(100.dp), contentDescription = "")
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -126,15 +121,15 @@ fun AnaSayfa(navController: NavController) {
                                             verticalArrangement = Arrangement.SpaceEvenly,
                                             modifier = Modifier.fillMaxHeight()
                                         ) {
-                                            Text(text = yemek.yemekAdi, fontSize = 20.sp)
+                                            Text(text = yemek.yemek_adi!!,fontSize = 20.sp)
                                             Spacer(modifier = Modifier.size(30.dp))
-                                            Text(text = "${yemek.yemekFiyat} ₺", fontSize = 20.sp, color = Color.Magenta)
+                                            Text(text = "${yemek.yemek_fiyat} ₺",color = Color.Blue)
                                         }
-                                        Icon(painter = painterResource(id = R.drawable.arrow_resim), contentDescription = "")
+                                        Icon(painter = painterResource(id = R.drawable.arrow_resim),
+                                            contentDescription = "")
                                     }
                                 }
                             }
-
                         }
                     }
                 )

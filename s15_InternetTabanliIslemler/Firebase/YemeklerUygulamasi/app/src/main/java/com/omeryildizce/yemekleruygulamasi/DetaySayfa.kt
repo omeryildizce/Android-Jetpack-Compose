@@ -15,8 +15,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.omeryildizce.yemekleruygulamasi.entity.Yemekler
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun DetaySayfa(yemek: Yemekler) {
@@ -24,7 +27,7 @@ fun DetaySayfa(yemek: Yemekler) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = yemek.yemekAdi) },
+                title = { Text(text = yemek.yemek_adi!!) },
                 backgroundColor = colorResource(id = R.color.ana_renk),
                 contentColor = colorResource(id = R.color.white)
             )
@@ -35,19 +38,9 @@ fun DetaySayfa(yemek: Yemekler) {
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val activity = LocalContext.current as Activity
-                Image(
-                    bitmap = ImageBitmap.imageResource(
-                        id = activity.resources.getIdentifier(
-                            yemek.yemekResimAdi,
-                            "drawable",
-                            activity.packageName
-                        )
-                    ),
-                    contentDescription = yemek.yemekAdi,
-                    Modifier.size(250.dp)
-                )
-                Text(text = "${yemek.yemekFiyat} ₺", color = Color.Magenta, fontSize = 50.sp)
+                GlideImage(model = "http://10.0.2.2/yemekler/resimler/${yemek.yemek_resim_adi}", contentDescription = "${yemek.yemek_resim_adi}" , modifier = Modifier.size(250.dp))
+
+                Text(text = "${yemek.yemek_fiyat} ₺", color = Color.Magenta, fontSize = 50.sp)
                 Button(
                     onClick = {
 

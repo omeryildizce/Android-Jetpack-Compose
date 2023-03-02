@@ -1,3 +1,11 @@
 package com.omeryildizce.yemekleruygulamasi.entity
 
-data class Yemekler(var yemekId: Int, var yemekAdi:String, var yemekResimAdi:String, var yemekFiyat:Int)
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+data class Yemekler(var yemek_id:String? = "",
+                    var yemek_adi:String? = "",
+                    var yemek_resim_adi:String? = "",
+                    var yemek_fiyat:Int? = 0) {
+}
+
