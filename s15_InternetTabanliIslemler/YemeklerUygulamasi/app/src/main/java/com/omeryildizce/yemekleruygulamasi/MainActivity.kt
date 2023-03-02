@@ -1,27 +1,19 @@
 package com.omeryildizce.yemekleruygulamasi
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,10 +25,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.google.gson.Gson
 import com.omeryildizce.yemekleruygulamasi.entity.Yemekler
 import com.omeryildizce.yemekleruygulamasi.ui.theme.YemeklerUygulamasiTheme
 import com.omeryildizce.yemekleruygulamasi.viewmodel.AnasayfaViewModel
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +65,7 @@ fun SayfaGecisleri(){
         }
     }
 }
+@OptIn(ExperimentalGlideComposeApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AnaSayfa(navController: NavController) {
@@ -105,18 +101,7 @@ fun AnaSayfa(navController: NavController) {
                                         .padding(all = 10.dp)
                                         .fillMaxWidth()
                                 ) {
-                                    val activity = LocalContext.current as Activity
-                                    Image(
-                                        bitmap = ImageBitmap.imageResource(
-                                            id = activity.resources.getIdentifier(
-                                                yemek.yemekResimAdi,
-                                                "drawable",
-                                                activity.packageName
-                                            )
-                                        ),
-                                        contentDescription = yemek.yemekResimAdi,
-                                        modifier = Modifier.size(100.dp)
-                                    )
+                                    GlideImage(  model = "http://10.0.2.2/yemekler/resimler/${yemek.yemekResimAdi}.png",contentDescription = "", modifier = Modifier.size(100.dp))
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.SpaceBetween,
