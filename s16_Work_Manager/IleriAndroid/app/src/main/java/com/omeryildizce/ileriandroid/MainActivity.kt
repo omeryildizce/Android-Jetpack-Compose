@@ -22,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationCompat
+import androidx.work.*
 import com.omeryildizce.ileriandroid.ui.theme.IleriAndroidTheme
+import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +56,27 @@ fun Sayfa() {
         }) {
             Text(text = "Bildirim oluştur")
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            val calismaKosulu = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val istek = OneTimeWorkRequestBuilder<MyWorker>()
+                .setInitialDelay(10, TimeUnit.SECONDS)
+                .setConstraints(calismaKosulu)
+                .build()
+
+            WorkManager.getInstance(context).enqueue(istek)
+        }) {
             Text(text = "Yap")
+        }
+        Button(onClick = {
+            val istek = PeriodicWorkRequestBuilder<MyWorkerBildirim>(15, TimeUnit.MINUTES)
+                .setInitialDelay(10, TimeUnit.SECONDS)
+
+                .build()
+
+            WorkManager.getInstance(context).enqueue(istek)
+        }) {
+            Text(text = "Periyodik Yap")
         }
     }
 }
